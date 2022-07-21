@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript" src="jquery-1.11.1-min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        //给"创建"按钮添加单击事件
+        $("#createClueBtn").click(function () {
+            /*alert("进来了")
+            var userPassword=$("#userPassword").val();
+            var userEmail=$("#userEmail").val();
+            var userAge=$("#userAge").val();
+            var userNumber=$("#userNumber").val();
+            var userNickname=$("#userNickname").val();
+            var userSex=$("#userSex").val();
+            $.ajax({
+                url: '/user/logon',
+                data: {
+                    userPassword: userPassword,
+                    userEmail: userEmail,
+                    userAge: userAge,
+                    userNumber: userNumber,
+                    userNickname: userNickname,
+                    userSex: userSex,
+                },
+                type: 'post',
+                dataType: 'json',
+                //Content: 'application/json',
+                success: function (data) {
+                    if (data.data=="0"){
+                        alert(data.message)
+                    }else {
+                        alert(data.message)
+                        window.location.href = "/company/se";
+                    }
+                }
+            })*/
+            alert(JSON.stringify(form2Json($("#form").serialize())))
+            $.ajax({
+                url: '/user/logon',
+                method: "POST",
+                data: JSON.stringify(form2Json($("#form").serialize())),
+                contentType: "application/json",
+                success: function (returnObject) {
+                    if (returnObject.code=="1") {
+                        window.location.href = "/front/index";
+                    } else {
+                        alert(returnObject.message + ",请重新登录！");
+                    }
+                }
+            });
+
+        });
+    });
+    function form2Json(str) {
+        var arr = str.split('&');
+        var obj = {};
+        for (var i = 0; i < arr.length; i++) {
+            var bits = arr[i].split('=');
+            obj[bits[0]] = bits[1];
+        }
+        str = '';
+        for (key in obj) {
+            str += key + '=' + obj[key] + '&';
+        }
+        str = str.slice(0, str.length - 1);
+        return obj;
+    }
+</script>
+<form id="form">
+    <div>密码:<input type="text" name="userPassword"></div>
+    <div>邮箱:<input type="text" name="userEmail"></div>
+    <div>年龄:<input type="text" name="userAge"></div>
+    <div>电话:<input type="text" name="userNumber"></div>
+    <div>名字:<input type="text" name="userNickname"></div>
+    <div>性别:<input type="text" name="userSex"></div>
+    <input type="button" id="createClueBtn" value="保存">
+    <input type="reset">
+</form>
+
+</body>
+</html>

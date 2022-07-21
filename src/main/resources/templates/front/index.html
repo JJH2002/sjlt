@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+
+		<!-- 必须的 meta 标签 -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>今日生机论坛</title>
+		<link rel="icon" href="../favicon.ico">
+
+		<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+		<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.min.js"></script>
+		<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+		<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		
+		<style>
+			ul{
+				list-style-type: none;
+			}
+		</style>
+
+	</head>
+	<body>
+		
+		<!-- 页面头部(是固定住的) -->
+		<div id="head"></div>
+		
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<ul class="breadcrumb">
+						<li>&nbsp;<a href="/label/see">分区</a></li>
+						<li class="active" th:switch="${labelName}">
+							/&nbsp;<a href="#" th:text="${labelName}"></a>
+						</li>
+						<li class="active" th:unless="${labelName}">
+							/&nbsp;<a href="#">全部</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="offset-1 col-10">
+					<div class="container">
+						<!-- 帖子模块 -->
+						<ul th:each="list,listIter:${list}">
+							<li class="mt-2 bg-white">
+								<a th:href="@{/article/detailed(articleId=${list.articleId})}"  class="row bg-white rounded shadow p-2">
+									<div class="col-6">
+										<div class="h5" th:text="${list.articleTitle}"><!--家常酿苦瓜--></div>
+										<p th:text="${list.articleContent}"><!--正宗客家酿苦瓜的做法酱香入味配方详细分享小白也能学会正宗客家酿苦瓜的做法酱香入味配方详细分享小白也能学会正宗客家酿苦瓜的做法酱香入味配方详细分享小白也能学会
+										--></p>
+									</div>
+									<div class="col-6"><img src="../img/家常酿苦瓜.jpeg" class="img-fluid w-100"></div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$().ready(function(){
+				$("#head").load("/test/head")
+			});
+		</script>
+	</body>
+</html>

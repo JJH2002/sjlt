@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- 页面头部(是固定住的) -->
+<div class="row fixed-top shadow  bg-white">
+	<div class="col-4">
+		<a href="#"><img src="../img/logo/logo.png" class="w-100"></a>
+	</div>
+	<div class="col-2 offset-4 navbar">
+		<form role="form">
+			<div class="input-group">
+				<input class="form-control col-9" type="text" placeholder="今天想要搜点什么？" aria-label="Search">
+				<input type="submit" class="form-control col-3 btn btn-outline-primary" value="搜索">
+			</div>
+		</form>
+	</div>
+	<div class="col-1 navbar">
+		<div class="dropdown">
+			<a type="button" class="btn dropdown-toggle" id="dropdownMenu1" role="button" data-toggle="dropdown"
+				aria-expanded="false">
+				<img src="../img/defaultHeadPortrait/defaultHeadPortrait.jpeg" class="rounded-circle w-50">
+			</a>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<div class="dropdown-header">
+					<span th:text="${byId.userNickname}"><!--蒋劲豪--></span>
+					<span>
+						<img src="../img/sex/male.png" class="w-25">
+					</span>
+				</div>
+				<a th:href="@{/user/detailedInformation(userId=${byId.userId})}" class="dropdown-item">个人信息</a>
+				<a th:href="@{/test/publish}" class="dropdown-item">发布贴子</a>
+				<a href="#" class="dropdown-item">注销</a>
+			</div>
+		</div>
+	</div>
+</div>
+<br /><br /><br /><br />

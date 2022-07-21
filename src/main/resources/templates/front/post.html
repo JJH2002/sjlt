@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>今日生机论坛--帖子模块</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="icon" href="../favicon.ico">
+		
+		<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+		<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.min.js"></script>
+		<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+		<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<!-- 头部模块 -->
+		<div id="head"></div>
+		
+		<div class="container">
+			<!-- 发布者的标题和正文 -->
+			<div class="row mb-4">
+				<div class="offset-1 col-2 border bg-white rounded shadow pt-5 pb-5 border-left-0">
+					<img src="../img/defaultHeadPortrait/defaultHeadPortrait.jpeg" class="w-50 d-block">
+					<div class="h5" th:text="${userById.userNickname}"><!--好男人不止曾小贤--></div>
+					<div th:text="${userById.userName}"><!--用户名：777888999--></div>
+					<div th:text="${userById.userCreatetime}"><!--注册日期：2020-12-1--></div>
+					<div th:text="${byId.articleDate}"><!--发布时间：2020-12-1--></div>
+				</div>
+				<div class="col-7 border bg-white rounded shadow pt-5 pb-5 border-left-0">
+					<div class="h4" th:text="${byId.articleTitle}">
+						<!--我去！你们天天说的那个周杰伦是我同学-->
+					</div>
+					<hr>
+					<div th:text="${byId.articleContent}">
+						<!--被“催更”6年，周杰伦终于出新专辑了。早在6月下旬，周杰伦发布新专辑《最伟大的作品》前导纪录片开始，无数歌迷已准备好了迎接周董给的“狂欢”。7月6日中午，周杰伦新专辑《最伟大的作品》先行曲MV上线，在某平台上短短1个小时点赞量便突破百万，上线8小时播放量突破1.5亿。歌迷直呼“青春回来了”“想象依然无限大，音乐依然范特西”。
+					--></div>
+					<div>
+						<img src="../img/material/zhoujielun01.jpeg" class="w-100">
+					</div>
+				</div>
+			</div>
+			<!-- 其他人的评论 -->
+			<div class="row mb-4" th:each="userCommentList,userCommentListIter:${userCommentList}">
+				<div class="offset-1 col-2 border bg-white rounded shadow pt-5 pb-5 border-left-0">
+					<img src="../img/defaultHeadPortrait/defaultHeadPortrait.jpeg" class="w-50 d-block">
+					<div class="h5" th:text="${userCommentList.user.userNickname}"><!--好男人不止曾小贤--></div>
+					<div th:text="${userCommentList.user.userName}"><!--用户名：777888999--></div>
+					<div th:text="${userCommentList.user.userCreatetime}"><!--注册日期：2020-12-1--></div>
+					<div th:text="${userCommentList.comment.commentDate}"><!--发布时间：2020-12-1--></div>
+				</div>
+				<div class="col-7 border bg-white rounded shadow pt-5 pb-5 border-left-0">
+					<div th:text="${userCommentList.comment.commentContent}">
+						<!--梦里啥都有！-->
+					</div>
+					<hr>
+					<div>
+						<img src="../img/material/zhentou01.jpeg" class="w-100">
+					</div>
+				</div>
+			</div>
+			<!-- 我的留言模块 -->
+			<div class="row mb-2">
+				<div class="col-2">
+				</div>
+				<div class="col-7 border bg-white rounded shadow pt-4">
+					<form id="form" role="form">
+						<input type="hidden" name="articleId" th:value="${byId.articleId}">
+						<div class="form-group">
+							<textarea class="w-100" rows="7" placeholder="我也来说一句！" name="commentContent"></textarea>
+						</div>
+						<hr>
+						<div class="form-group">
+							<input type="file">
+						</div>
+						<div class="form-group text-center">
+							<input type="submit" value="提交" class="btn btn-primary">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	
+	<script>
+		$().ready(function(){
+			$("#head").load("/test/head")
+		});
+		$('form').submit(function (e) {
+			// 阻止表单的提交和页面的跳转
+			e.preventDefault();
+			$.ajax({
+				url: '/comment/add',
+				method: "POST",
+				data: JSON.stringify(form2Json($("form").serialize())),
+				contentType: "application/json",
+				success: function (returnObject) {
+					if (returnObject.code=="1") {
+						//window.location.href = "/article/add";
+						alert(returnObject.message);
+						location.replace(location.href);
+						// alert("success");
+					} else {
+						alert(returnObject.message);
+					}
+				}
+			});
+
+		});
+		// ?username=tom&password=tom转{"username":"tom","password":"tom"}格式
+		function form2Json(str) {
+			var arr = str.split('&');
+			var obj = {};
+			for (var i = 0; i < arr.length; i++) {
+				var bits = arr[i].split('=');
+				obj[bits[0]] = bits[1];
+			}
+			str = '';
+			for (key in obj) {
+				str += key + '=' + obj[key] + '&';
+			}
+			str = str.slice(0, str.length - 1);
+			return obj;
+		}
+	</script>
+	</body>
+</html>
